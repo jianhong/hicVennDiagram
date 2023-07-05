@@ -1,0 +1,37 @@
+Package: hicVennDiagram
+Title: Venn Diagram for genomic interaction data
+Version: 0.99.0
+Authors@R: 
+    person(given="Jianhong", family="Ou", email="jianhong.ou@duke.edu", 
+        role=c("aut", "cre"), comment=c(ORCID="0000-0002-8652-2488"))
+Description: A package to generate high-resolution Venn and Upset plots for 
+    genomic interaction data from HiC, ChIA-PET, HiChIP, PLAC-Seq, Hi-TrAC,
+    HiCAR and etc. The package generates plots specifically crafted to
+    eliminate the deceptive visual representation caused by the counts method.
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+VignetteBuilder: knitr
+biocViews: DNA3DStructure, HiC, Visualization
+Depends:
+    R (>= 4.3.0)
+Imports:
+    InteractionSet,
+    rtracklayer,
+    ggplot2,
+    ComplexUpset,
+    reshape2,
+    eulerr,
+    S4Vectors,
+    methods,
+    utils
+Suggests:
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    testthat,
+    GenomicRanges,
+    ChIPpeakAnno
+URL: https://github.com/jianhong/hicVennDiagram
+BugReports: https://github.com/jianhong/hicVennDiagram/issues

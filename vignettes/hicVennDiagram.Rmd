@@ -1,0 +1,118 @@
+---
+title: "hicVennDiagram Vignette: overview"
+author: "Jianhong Ou"
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('hicVennDiagram')`"
+vignette: >
+  %\VignetteIndexEntry{hicVennDiagram Vignette: overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output:
+  html_document:
+    theme: simplex
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    fig_caption: true
+---
+
+```{r, echo=FALSE, results="hide", warning=FALSE}
+suppressPackageStartupMessages({
+    library(hicVennDiagram)
+    library(GenomicRanges)
+})
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+# Introduction
+When comparing samples, it is common to perform the task of identifying 
+overlapping loops among two or more sets of genomic interactions.
+Traditionally, this is achieved through the use of visualizations such as
+`vennDiagram` or `UpSet` plots.
+However, it is frequently observed that the total count displayed in these
+plots does not match the original counts for each individual list.
+The reason behind this discrepancy is that a single overlap may encompass
+multiple interactions for one or more samples.
+This issue is extensively discussed in the realm of overlapping caller
+for ChIP-Seq peaks.
+
+The _hicVennDiagram_ aims to provide a easy to use tool for overlapping
+interactions calculation and proper visualization methods. The _hicVennDiagram_
+generates plots specifically crafted to eliminate the deceptive visual
+representation caused by the counts method.
+
+# Quick start
+
+Here is an example using _hicVennDiagram_ with 3 files in `BEDPE` format.
+
+## Installation
+First, install _hicVennDiagram_ and other packages required to run 
+the examples.
+
+```{r installation, eval=FALSE}
+library(BiocManager)
+BiocManager::install("hicVennDiagram")
+```
+## Load library
+
+```{r load_library}
+library(hicVennDiagram)
+library(ggplot2)
+```
+
+
+```{r quick_start}
+# list the BEDPE files
+file_folder <- system.file("extdata",
+                           package = "hicVennDiagram",
+                           mustWork = TRUE)
+file_list <- dir(file_folder, pattern = ".bedpe", full.names = TRUE)
+names(file_list) <- sub(".bedpe", "", basename(file_list))
+basename(file_list)
+venn <- vennCount(file_list)
+upsetPlot(venn)
+```
+
+# Details about `vennCount`
+The `vennCount` function borrows the power of `InteractionSet:findOverlaps` to
+calculate the overlaps and then summarizes the results for each category.
+Users may want to try different combinations of `maxgap` and `minoverlap`
+parameters to calculate the overlapping loops.
+```{r vennCount}
+venn <- vennCount(file_list, maxgap=50000, FUN = max) # by default FUN = min
+upsetPlot(venn, label_all=list(
+                          na.rm = TRUE,
+                          color = 'black',
+                          alpha = .9,
+                          label.padding = unit(0.1, "lines")
+                      ))
+```
+
+# Plot for overlapping peaks output by `ChIPpeakAnno`
+
+```{r chippeakanno_findOverlapsOfPeaks, warning=FALSE}
+library(ChIPpeakAnno)
+bed <- system.file("extdata", "MACS_output.bed", package="ChIPpeakAnno")
+gr1 <- toGRanges(bed, format="BED", header=FALSE)
+gff <- system.file("extdata", "GFF_peaks.gff", package="ChIPpeakAnno")
+gr2 <- toGRanges(gff, format="GFF", header=FALSE, skip=3)
+ol <- findOverlapsOfPeaks(gr1, gr2)
+overlappingPeaksToVennTable <- function(.ele){
+    .venn <- .ele$venn_cnt
+    k <- which(colnames(.venn)=="Counts")
+    rownames(.venn) <- apply(.venn[, seq.int(k-1)], 1, paste, collapse="")
+    colnames(.venn) <- sub("count.", "", colnames(.venn))
+    vennTable(combinations=.venn[, seq.int(k-1)],
+              counts=.venn[, k],
+              vennCounts=.venn[, seq.int(ncol(.venn))[-seq.int(k)]])
+}
+venn <- overlappingPeaksToVennTable(ol)
+vennPlot(venn)
+upsetPlot(venn)
+```
+
+# Session Info
+```{r sessionInfo, results='asis'}
+sessionInfo()
+```
+
