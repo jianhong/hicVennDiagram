@@ -16,6 +16,7 @@
 #' @importFrom InteractionSet findOverlaps
 #' @importFrom rtracklayer import
 #' @importFrom utils combn
+#' @return An object of \link{vennTable}
 #' @examples
 #' pd <- system.file("extdata", package = "hicVennDiagram", mustWork = TRUE)
 #' fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
@@ -53,7 +54,7 @@ vennCount <- function(gi, FUN = min, ...){
     })
     # get overlaps
     cmb <- combn(names(gi), 2, simplify = FALSE)
-    names(cmb) <- sapply(cmb, paste, collapse="_")
+    names(cmb) <- vapply(cmb, paste, FUN.VALUE = character(1L), collapse="_")
     ol <- lapply(cmb, function(.ele){
         findOverlaps(gi[[.ele[1]]], gi[[.ele[2]]],
                      use.region="both", ...)
@@ -82,9 +83,9 @@ vennCount <- function(gi, FUN = min, ...){
             ids <- lapply(others, function(.e){
                 ol_id <- checkOL(.ele, .e, cmb)
                 if(.ele==cmb[[ol_id]][1]){
-                    fun=queryHits
+                    fun <- queryHits
                 }else{
-                    fun=subjectHits
+                    fun <- subjectHits
                 }
                 .ol <- ol[[ol_id]]
                 unique(fun(.ol))

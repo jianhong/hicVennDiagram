@@ -38,6 +38,9 @@ vennTable(...)
 
 \item{object}{an object of vennTable.}
 }
+\value{
+An object of vennTable.
+}
 \description{
 An object of class \code{"vennTable"}
 represents Venn counts.

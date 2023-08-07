@@ -16,6 +16,9 @@ vennCount(gi, FUN = min, ...)
 \item{\dots}{parameters used by
 \link[InteractionSet:findOverlaps]{findOverlaps}}
 }
+\value{
+An object of \link{vennTable}
+}
 \description{
 Given a collection of bedpe files or a list of genomic interaction data,
 \code{vennCount} will compute all possible combinations of interactions

@@ -1,3 +1,8 @@
+# Changes in version 0.99.2
+
+    o Add output to man/vennCount.Rd, man/vennTable-class.Rd
+    o Replace sapply by vapply.
+    
 # Changes in version 0.99.1
 
     o Remove the .Rproj file.

@@ -47,6 +47,7 @@ setClass("vennTable",
 #' @rdname vennTable-class
 #' @param \dots Each argument in \dots becomes an slot in the new vennTable.
 #' @export
+#' @return An object of vennTable.
 
 vennTable <- function(...){
     new("vennTable", ...)
