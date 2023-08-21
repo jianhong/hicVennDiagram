@@ -8,6 +8,8 @@
 #' text labels of counts for each group. If it set to FALSE or length of the
 #' list is zero, the labels will be ignored.
 #' @param coln_prefix The prefix to be removed for colnumn names of vennTable.
+#' @param ... Parameters could be passed to \link[ComplexUpset:upset]{upset}
+#'  except `data` and `intersect`.
 #' @return A ggplot object.
 #' @export
 #' @importFrom ComplexUpset upset
@@ -18,14 +20,26 @@
 #' fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
 #' vc <- vennCount(fs)
 #' upsetPlot(vc)
-#'
+#' ## change the font size of lables and numbers
+#' upsetPlot(vc, label_all=list(
+#'                         na.rm = TRUE,
+#'                         color = 'gray30',
+#'                         alpha = .7,
+#'                         label.padding = grid::unit(0.1, "lines"),
+#'                         size = 5
+#' ), themes = ComplexUpset::upset_modify_themes(
+#'  ## get help by vignette('Examples_R', package = 'ComplexUpset')
+#'         list('intersections_matrix'=
+#'             ggplot2::theme(axis.text.y=ggplot2::element_text(size=24)))
+#' ))
 upsetPlot <- function(vennTable,
                       label_all=list(
                           na.rm = TRUE,
                           color = 'gray30',
                           alpha = .7,
                           label.padding = unit(0.1, "lines")
-                      ), coln_prefix=NULL){
+                      ), coln_prefix=NULL,
+                      ...){
     stopifnot(is(vennTable, "vennTable"))
     if(!is.null(coln_prefix)){
         stopifnot(is.character(coln_prefix))
@@ -36,7 +50,7 @@ upsetPlot <- function(vennTable,
 
     plotdata <- combinations[rep(rownames(combinations), expInput), ]
     plotdata <- as.data.frame(plotdata)
-    p <- upset(plotdata, colnames(plotdata))
+    p <- upset(data=plotdata, intersect=colnames(plotdata), ...)
     if(length(label_all)==0){
         return(p)
     }

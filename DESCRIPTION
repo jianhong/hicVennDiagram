@@ -1,6 +1,6 @@
 Package: hicVennDiagram
 Title: Venn Diagram for genomic interaction data
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: 
     person(given="Jianhong", family="Ou", email="jianhong.ou@duke.edu", 
         role=c("aut", "cre"), comment=c(ORCID="0000-0002-8652-2488"))
@@ -32,6 +32,7 @@ Suggests:
     rmarkdown,
     testthat,
     GenomicRanges,
-    ChIPpeakAnno
+    ChIPpeakAnno,
+    grid
 URL: https://github.com/jianhong/hicVennDiagram
 BugReports: https://github.com/jianhong/hicVennDiagram/issues

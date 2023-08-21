@@ -8,7 +8,8 @@ upsetPlot(
   vennTable,
   label_all = list(na.rm = TRUE, color = "gray30", alpha = 0.7, label.padding = unit(0.1,
     "lines")),
-  coln_prefix = NULL
+  coln_prefix = NULL,
+  ...
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ text labels of counts for each group. If it set to FALSE or length of the
 list is zero, the labels will be ignored.}
 
 \item{coln_prefix}{The prefix to be removed for colnumn names of vennTable.}
+
+\item{...}{Parameters could be passed to \link[ComplexUpset:upset]{upset}
+except \code{data} and \code{intersect}.}
 }
 \value{
 A ggplot object.
@@ -32,5 +36,16 @@ pd <- system.file("extdata", package = "hicVennDiagram", mustWork = TRUE)
 fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
 vc <- vennCount(fs)
 upsetPlot(vc)
-
+## change the font size of lables and numbers
+upsetPlot(vc, label_all=list(
+                        na.rm = TRUE,
+                        color = 'gray30',
+                        alpha = .7,
+                        label.padding = grid::unit(0.1, "lines"),
+                        size = 5
+), themes = ComplexUpset::upset_modify_themes(
+ ## get help by vignette('Examples_R', package = 'ComplexUpset')
+        list('intersections_matrix'=
+            ggplot2::theme(axis.text.y=ggplot2::element_text(size=24)))
+))
 }

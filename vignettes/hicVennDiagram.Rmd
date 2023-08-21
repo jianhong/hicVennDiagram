@@ -109,6 +109,40 @@ overlappingPeaksToVennTable <- function(.ele){
 venn <- overlappingPeaksToVennTable(ol)
 vennPlot(venn)
 upsetPlot(venn)
+## change the font size of labels and numbers
+upsetPlot(venn,
+          label_all=list(na.rm = TRUE, color = 'gray30', alpha = .7,
+                         label.padding = unit(0.1, "lines"),
+                         size = 8 #control the font size of the individual num
+                         ),
+          base_annotations=list('Intersection size'=
+                                    ComplexUpset::intersection_size(
+                                        ## font size of counts in the bar-plot
+                                        text = list(size=6)
+                                        )),
+          themes = ComplexUpset::upset_modify_themes(
+              ## get help by vignette('Examples_R', package = 'ComplexUpset')
+              list('intersections_matrix'=
+                       ggplot2::theme(
+                           ## font size of label: gr1/gr2
+                           axis.text.y=ggplot2::element_text(size=24),
+                           ## font size of label `group`
+                           axis.title.x=ggplot2::element_text(size=24)),
+                   'overall_sizes'=
+                       ggplot2::theme(
+                           ## font size of x-axis 0-200
+                           axis.text=ggplot2::element_text(size=12),
+                           ## font size of x-label `Set size`
+                           axis.title=ggplot2::element_text(size=18)),
+                   'Intersection size'=
+                       ggplot2::theme(
+                           ## font size of y-axis 0-150
+                           axis.text=ggplot2::element_text(size=20),
+                           ## font size of y-label `Intersection size`
+                           axis.title=ggplot2::element_text(size=16)
+                       ))
+              )
+          )
 ```
 
 # Session Info

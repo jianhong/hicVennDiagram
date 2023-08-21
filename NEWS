@@ -1,3 +1,7 @@
+# Changes in version 0.99.3
+
+    o Add \dots parameters to control the plots and update the documentations.
+    
 # Changes in version 0.99.2
 
     o Add output to man/vennCount.Rd, man/vennTable-class.Rd

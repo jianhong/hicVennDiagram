@@ -4,11 +4,14 @@
 \alias{vennPlot}
 \title{Venn diagram for the Venn count table}
 \usage{
-vennPlot(vennTable)
+vennPlot(vennTable, ...)
 }
 \arguments{
 \item{vennTable}{An vennTable object, the first element in the output of
 \link{vennCount}.}
+
+\item{...}{parameters to update fills and edges with and thereby a shortcut
+to set these parameters \link[eulerr:plot.euler]{plot.euler}.}
 }
 \value{
 A grid object.
@@ -21,4 +24,7 @@ pd <- system.file("extdata", package = "hicVennDiagram", mustWork = TRUE)
 fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
 vc <- vennCount(fs)
 vennPlot(vc)
+## change the font size of venn plot lables and numbers,
+## both cex or fontsize should work
+vennPlot(vc, quantities=list(fontsize=24), labels=list(cex=1.5))
 }

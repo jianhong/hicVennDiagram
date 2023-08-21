@@ -4,6 +4,8 @@
 #'
 #' @param vennTable An vennTable object, the first element in the output of
 #'  \link{vennCount}.
+#' @param ... parameters to update fills and edges with and thereby a shortcut
+#'  to set these parameters \link[eulerr:plot.euler]{plot.euler}.
 #' @return A grid object.
 #' @export
 #' @importFrom eulerr euler
@@ -12,7 +14,11 @@
 #' fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
 #' vc <- vennCount(fs)
 #' vennPlot(vc)
-vennPlot <- function(vennTable){
+#' ## change the font size of venn plot lables and numbers,
+#' ## both cex or fontsize should work
+#' vennPlot(vc, quantities=list(fontsize=24), labels=list(cex=1.5))
+vennPlot <- function(vennTable, ...){
+    dots <- list(...)
     stopifnot(is(vennTable, "vennTable"))
     combinations <- vennTable$combinations
     expInput <- vennTable$counts
@@ -33,7 +39,11 @@ vennPlot <- function(vennTable){
     fov <- fit.original.values[match(n1_s, n2_s)]
     names(fov) <- fake_fov
     fit$original.values <- fake_fov ##
-    p <- plot(fit, quantities=TRUE)
+    if(is.null(dots$quantities)){
+        dots$quantities = TRUE
+    }
+    dots$x <- fit
+    p <- do.call(plot, dots)
     p$data$original.values <- fov
     p$data$centers$quantities <- fov[rownames(p$data$centers)]
     changeQuantityTag <- function(euler_grob, fov_map){
