@@ -4,11 +4,14 @@
 \alias{vennPlot}
 \title{Venn diagram for the Venn count table}
 \usage{
-vennPlot(vennTable, ...)
+vennPlot(vennTable, shape = "circle", ...)
 }
 \arguments{
 \item{vennTable}{An vennTable object, the first element in the output of
 \link{vennCount}.}
+
+\item{shape}{Geometric shape used in the diagram used by
+\link[eulerr:euler]{euler}.}
 
 \item{...}{parameters to update fills and edges with and thereby a shortcut
 to set these parameters \link[eulerr:plot.euler]{plot.euler}.}

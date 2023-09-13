@@ -4,6 +4,8 @@
 #'
 #' @param vennTable An vennTable object, the first element in the output of
 #'  \link{vennCount}.
+#' @param shape Geometric shape used in the diagram used by
+#'  \link[eulerr:euler]{euler}.
 #' @param ... parameters to update fills and edges with and thereby a shortcut
 #'  to set these parameters \link[eulerr:plot.euler]{plot.euler}.
 #' @return A grid object.
@@ -17,7 +19,7 @@
 #' ## change the font size of venn plot lables and numbers,
 #' ## both cex or fontsize should work
 #' vennPlot(vc, quantities=list(fontsize=24), labels=list(cex=1.5))
-vennPlot <- function(vennTable, ...){
+vennPlot <- function(vennTable, shape = 'circle', ...){
     dots <- list(...)
     stopifnot(is(vennTable, "vennTable"))
     combinations <- vennTable$combinations
@@ -26,7 +28,7 @@ vennPlot <- function(vennTable, ...){
     names(expInput) <- apply(combinations, 1, FUN=function(i){
         paste(colnames(combinations)[as.logical(i)], collapse = "&")
     })
-    fit <- euler(expInput[-1], shape = "ellipse")
+    fit <- euler(expInput[-1], shape = shape)
     fit.original.values <- apply(vennCounts, 1, paste, collapse="/")
     names(fit.original.values) <- names(expInput)
     fit.original.values <- fit.original.values[-1]

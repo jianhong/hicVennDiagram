@@ -1,0 +1,9 @@
+dependencies:
+  - name: d3
+    version: 5.16.0
+    src: "htmlwidgets/lib/d3"
+    script: 'd3.v5.min.js'
+  - name: saveSvgAsPng
+    version: 0.0.1
+    src: "htmlwidgets/lib/saveSvgAsPng"
+    script: 'saveSvgAsPng.js'

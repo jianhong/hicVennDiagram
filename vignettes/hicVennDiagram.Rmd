@@ -70,7 +70,12 @@ file_list <- dir(file_folder, pattern = ".bedpe", full.names = TRUE)
 names(file_list) <- sub(".bedpe", "", basename(file_list))
 basename(file_list)
 venn <- vennCount(file_list)
+## upset plot
 upsetPlot(venn)
+## venn plot
+vennPlot(venn)
+## use browser to adjust the text position. TODO: adjust the colors and font.
+browseVenn(vennPlot(venn))
 ```
 
 # Details about `vennCount`
