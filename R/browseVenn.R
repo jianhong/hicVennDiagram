@@ -26,8 +26,12 @@ browseVenn <- function(plot,
                   inherits(plot, c("gTree", "grob", "ggplot")))
     tmpf <- tempfile(fileext = ".svg")
     ggsave(filename = tmpf, plot = plot)
+    content <- readLines(tmpf)
+    # line 1 <?xml
+    # line 2 <svg
+    # last line </svg
     x <- list(
-        data = paste(readLines(tmpf), collapse="\n")
+        data = paste(content[-1], collapse="\n")
     )
     
     htmlwidgets::createWidget(

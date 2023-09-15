@@ -6,35 +6,29 @@ HTMLWidgets.widget({
   
   factory: function(el, width, height) {
   
-    var svg = d3.select(el);
-    var menu = d3.select(el).append("input")
+    var canvas = d3.select(el);
+                 
+    return {
+      renderValue: function(x) {
+        
+        var widthF = function() {
+          return(+canvas.select("svg").attr("width"));
+        };
+        var heightF = function() {
+          return(+canvas.select("svg").attr("height"));
+        };
+        
+        // load the data
+        canvas.html(x.data);
+        var menu = canvas.append("input")
                  .attr("type", "button")
                  .attr("name", "export")
                  .attr("id", "export")
                  .attr("value", "exportSVG");
-                 
-    return {
-      renderValue: function(x) {
-        // parse gexf data
-        var parser = new DOMParser();
-        var data = parser.parseFromString(x.data, "text/xml");
-        console.log(data);
-        
-        var widthF = function() {
-          return(+svg.attr("width"));
-        };
-        var heightF = function() {
-          return(+svg.attr("height"));
-        };
-        
-        // load the data
-        var plot = document.adoptNode(data.documentElement);
-        console.log(plot);
-        svg.node().append(plot);
         
         // ondrag
         // prepare the cursor for drag
-        svg.selectAll("text")
+        canvas.selectAll("text")
                 .on("mouseover", function() {
                     d3.select(this).style("cursor", "move"); 
                 })
@@ -53,27 +47,28 @@ HTMLWidgets.widget({
                         .attr("x", d3.event.x + deltaX)
                         .attr("y", d3.event.y + deltaY);
                 });
-        dragHandler(svg.selectAll("text"));
+        dragHandler(canvas.selectAll("text"));
         
         //ColorPicker
-        /*var cp;//colorPicker;
+        var cp;//colorPicker;
         var color = "#000";
         var cpCheckAll = false;
         var ColorPicker = function (target, picked) {
           var self = this;
           var target = d3.select(target);
-          var currentId = Number(target.attr("kvalue"));
           var colorScale = ["#FFD300","#FFFF00","#A2F300","#00DB00","#00CD00","#00FFFF",
           "#00B7FF","#0000FF","#1449C4","#4117C7","#820AC3","#DB007C",
           "#FF0000","#FF00FF","#FF7400","#FFAA00"];//change to color blindness safe?
           var getColor = function (i) {
             return colorScale[i];
           };
-          if(typeof(target.attr("fill"))!="undefined"){
-            color = target.attr("fill");
+          if(typeof(target.style("fill"))!="undefined"){
+              console.log(target.style("fill"));
+            color = target.style("fill");
           }else{
-            if(typeof(target.attr("stroke"))!="undefined"){
-              color = target.attr("stroke");
+            if(typeof(target.style("stroke"))!="undefined"){
+              console.log(target.style("stroke"));
+              color = target.style("stroke");
             }
           }
           defaultColor = color || getColor(0);
@@ -81,8 +76,12 @@ HTMLWidgets.widget({
           self.pickedColor = defaultColor;
           self.defaultPicked = function (col) {
             switch(picked){
-              case 0: 
-                break;
+              case 0: //text
+                  target.style('fill', col);
+                  break;
+              case 1: //path
+                  target.style('fill', col);
+                  break;
               default:
                 console.log(target);
             }
@@ -100,10 +99,12 @@ HTMLWidgets.widget({
 
           var pie = d3.pie().sort(null);
           var arc = d3.arc().innerRadius(25).outerRadius(50);
-          var currentCoor = [d3.event.x, d3.event.y];
+          var currentCoor = d3.mouse(canvas.select('svg').node());
           currentCoor[0] = currentCoor[0]+50;
           currentCoor[1] = currentCoor[1]+50;
           if(currentCoor[0] > widthF() - 50){
+              console.log(currentCoor);
+              console.log(widthF() + ";" + heightF());
             currentCoor[0] = widthF() - 50;
           }
           if(currentCoor[1] > heightF() - 50){
@@ -114,7 +115,7 @@ HTMLWidgets.widget({
               cp.remove();
               cp = undefined;
             }
-            cp = svg.select('svg').node()
+            cp = canvas.select('svg')
             .append("g")
             .attr("width", 100)
             .attr("height", 100)
@@ -128,29 +129,29 @@ HTMLWidgets.widget({
               d3.select(this).style("cursor", "default");
             }));
             var defaultPlate = cp.append("circle")
-            .attr("fill", defaultColor)
-            .attr("stroke", "#fff")
-            .attr("stroke-width", 2)
+            .style("fill", defaultColor)
+            .style("stroke", "#fff")
+            .style("stroke-width", 1)
             .attr("r", 10)
             .attr("cx", 45)
             .attr("cy", 45)
             .on("mouseover", function () {
-              var fill = d3.select(this).attr("fill");
+              var fill = d3.select(this).style("fill");
               self.pickedColor = fill;
-              plate.attr("fill", fill);
+              plate.style("fill", fill);
             })
             .on("click", clicked);
             var blackPlate = cp.append("circle")
-            .attr("fill", "#000")
-            .attr("stroke", "#fff")
-            .attr("stroke-width", 2)
+            .style("fill", "#000")
+            .style("stroke", "#fff")
+            .style("stroke-width", 1)
             .attr("r", 10)
             .attr("cx", -45)
             .attr("cy", 45)
             .on("mouseover", function () {
-              var fill = target.attr("fill");
+              var fill = target.style("fill");
               self.pickedColor = fill;
-              plate.attr("fill", fill);
+              plate.style("fill", fill);
             })
             .on("click", clicked);
             var closePlate = cp.append("g")
@@ -158,9 +159,9 @@ HTMLWidgets.widget({
             .attr("height", 20)
             .attr("transform", "translate(45 -45)");
             closePlate.append("circle")
-            .attr("fill", "#fff")
-            .attr("stroke", "#000")
-            .attr("stroke-width", 1)
+            .style("fill", "#fff")
+            .style("stroke", "#000")
+            .style("stroke-width", 1)
             .attr("r", 10)
             .attr("cx", 0)
             .attr("cy", 0)
@@ -168,7 +169,7 @@ HTMLWidgets.widget({
               cp.remove();
             });
             closePlate.append("text")
-            .attr("fill", "#000")
+            .style("fill", "#000")
             .attr("x", -5)
             .attr("y", 5)
             .text("X")
@@ -178,9 +179,9 @@ HTMLWidgets.widget({
             });
 
             var plate = cp.append("circle")
-            .attr("fill", defaultColor)
-            .attr("stroke", "#fff")
-            .attr("stroke-width", 2)
+            .style("fill", defaultColor)
+            .style("stroke", "#fff")
+            .style("stroke-width", 1)
             .attr("r", 25)
             .attr("cx", 0)
             .attr("cy", 0)
@@ -195,16 +196,16 @@ HTMLWidgets.widget({
             .data(pie)
             .enter()
             .append("path")
-            .attr("fill", function (d, i) {
+            .style("fill", function (d, i) {
               return getColor(i);
             })
-            .attr("stroke", "#fff")
-            .attr("stroke-width", 2)
+            .style("stroke", "#fff")
+            .style("stroke-width", 1)
             .attr("d", arc)
             .on("mouseover", function () {
-              var fill = d3.select(this).attr("fill");
+              var fill = d3.select(this).style("fill");
               self.pickedColor = fill;
-              plate.attr("fill", fill);
+              plate.style("fill", fill);
             })
             .on("click", clicked);
             var frm = cp.append("foreignObject")
@@ -214,8 +215,8 @@ HTMLWidgets.widget({
             .attr("height", 20);
             var inp = frm.append("xhtml:form")
             .append("input")
-            .attr("value", defaultColor)
-            .attr("style", "width:50px;")
+            .attr("value", d3.color(defaultColor).formatHex())
+            .attr("style", "width:80px;")
             .on("keypress", function(){
               // IE fix
               if (!d3.event)
@@ -231,7 +232,7 @@ HTMLWidgets.widget({
                 var fill = inp.node().value;
                 if(/^#(?:[0-9a-fA-F]{3}){1,2}$/.exec(fill)){
                   self.pickedColor = fill;
-                  plate.attr("fill", self.pickedColor);
+                  plate.style("fill", self.pickedColor);
                   clicked();
                 }
               }
@@ -240,10 +241,14 @@ HTMLWidgets.widget({
           newCP();
           return(self);
         };
-        svg.selectAll('path').on("click", function(){
+        canvas.selectAll('path').on("click", function(){
             cpCheckAll = true;
             ColorPicker(this, 1);
-        })*/
+        })
+        canvas.selectAll('text').on("click", function(){
+            cpCheckAll = true;
+            ColorPicker(this, 0);
+        })
         
         // download button
         function writeDownloadLink(){
@@ -259,7 +264,7 @@ HTMLWidgets.widget({
                 fireOnThis.fireEvent( 'on' + evt, evObj );
               }
             }
-            svgAsDataUri(svg.select('svg').node(),
+            svgAsDataUri(canvas.select('svg').node(),
                     'hicVennDiagram.svg', function(uri){
                 var a = document.createElement('a');
                 a.href = uri;
@@ -272,11 +277,11 @@ HTMLWidgets.widget({
       },
       
       resize: function(width, height) {
-        svg.select('svg').attr("width", width)
+        canvas.select("svg").attr("width", width)
            .attr("height", height);
       },
       
-      svg: svg
+      svg: canvas.select("svg")
     };
   }
 });
