@@ -11,6 +11,7 @@
 #' @export
 #' @importFrom htmlwidgets createWidget
 #' @importFrom ggplot2 ggsave
+#' @importFrom svglite svglite
 #' @importFrom methods getPackageName
 #' @examples
 #' pd <- system.file("extdata", package = "hicVennDiagram", mustWork = TRUE)
