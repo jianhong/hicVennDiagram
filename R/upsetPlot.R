@@ -13,25 +13,32 @@
 #' @return A ggplot object.
 #' @export
 #' @importFrom ComplexUpset upset
-#' @importFrom ggplot2 aes layer .data unit
+#' @importFrom ggplot2 aes layer .data unit theme
 #' @importFrom reshape2 melt
 #' @examples
 #' pd <- system.file("extdata", package = "hicVennDiagram", mustWork = TRUE)
 #' fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
 #' vc <- vennCount(fs)
-#' upsetPlot(vc)
+#' upset_themes_fix <- lapply(ComplexUpset::upset_themes, function(.ele){
+#' .ele[names(.ele) %in% names(formals(theme))]
+#' })
+#' upsetPlot(vc, theme = upset_themes_fix)
 #' ## change the font size of lables and numbers
+#' themes <- ComplexUpset::upset_modify_themes(
+#'  ## get help by vignette('Examples_R', package = 'ComplexUpset')
+#'         list('intersections_matrix'=
+#'             ggplot2::theme(axis.text.y=ggplot2::element_text(size=24)))
+#' )
+#' themes <- lapply(themes, function(.ele){
+#' .ele[names(.ele) %in% names(formals(theme))]
+#' })
 #' upsetPlot(vc, label_all=list(
 #'                         na.rm = TRUE,
 #'                         color = 'gray30',
 #'                         alpha = .7,
 #'                         label.padding = grid::unit(0.1, "lines"),
 #'                         size = 5
-#' ), themes = ComplexUpset::upset_modify_themes(
-#'  ## get help by vignette('Examples_R', package = 'ComplexUpset')
-#'         list('intersections_matrix'=
-#'             ggplot2::theme(axis.text.y=ggplot2::element_text(size=24)))
-#' ))
+#' ), themes = themes)
 upsetPlot <- function(vennTable,
                       label_all=list(
                           na.rm = TRUE,

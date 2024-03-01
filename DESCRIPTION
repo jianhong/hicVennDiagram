@@ -1,6 +1,6 @@
 Package: hicVennDiagram
 Title: Venn Diagram for genomic interaction data
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: 
     person(given="Jianhong", family="Ou", email="jianhong.ou@duke.edu", 
         role=c("aut", "cre"), comment=c(ORCID="0000-0002-8652-2488"))
@@ -11,7 +11,7 @@ Description: A package to generate high-resolution Venn and Upset plots for
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 biocViews: DNA3DStructure, HiC, Visualization
 Depends:
