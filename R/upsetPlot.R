@@ -20,7 +20,7 @@
 #' fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
 #' vc <- vennCount(fs)
 #' upset_themes_fix <- lapply(ComplexUpset::upset_themes, function(.ele){
-#' .ele[names(.ele) %in% names(formals(theme))]
+#' .ele[names(.ele) %in% names(formals(ggplot2::theme))]
 #' })
 #' upsetPlot(vc, theme = upset_themes_fix)
 #' ## change the font size of lables and numbers
@@ -30,7 +30,7 @@
 #'             ggplot2::theme(axis.text.y=ggplot2::element_text(size=24)))
 #' )
 #' themes <- lapply(themes, function(.ele){
-#' .ele[names(.ele) %in% names(formals(theme))]
+#' .ele[names(.ele) %in% names(formals(ggplot2::theme))]
 #' })
 #' upsetPlot(vc, label_all=list(
 #'                         na.rm = TRUE,
