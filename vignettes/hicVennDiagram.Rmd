@@ -73,7 +73,9 @@ venn <- vennCount(file_list)
 ## upset plot
 ## temp fix for https://github.com/krassowski/complex-upset/issues/195
 upset_themes_fix <- lapply(ComplexUpset::upset_themes, function(.ele){
-    .ele[names(.ele) %in% names(formals(theme))]
+    lapply(.ele, function(.e){
+        do.call(theme, .e[names(.e) %in% names(formals(theme))])
+    })
 })
 upsetPlot(venn,
           themes = upset_themes_fix)
@@ -145,7 +147,9 @@ updated_theme <- ComplexUpset::upset_modify_themes(
                    'default'=ggplot2::theme_minimal())
               )
 updated_theme <- lapply(updated_theme, function(.ele){
-    .ele[names(.ele) %in% names(formals(theme))]
+    lapply(.ele, function(.e){
+        do.call(theme, .e[names(.e) %in% names(formals(theme))])
+    })
 })
 upsetPlot(venn,
           label_all=list(na.rm = TRUE, color = 'gray30', alpha = .7,
