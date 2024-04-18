@@ -24,3 +24,36 @@ reSortName <- function(x, sep="&"){
     x_s <- vapply(x_s, paste, collapse="&", FUN.VALUE = character(1L))
     x_s
 }
+
+#' @importFrom rtracklayer import
+readGI <- function(gi){
+    if(is.character(gi)){
+        if(length(names(gi))==length(gi)){
+            n <- names(gi)
+        }else{
+            n <- basename(gi)
+            if(any(duplicated(n))){
+                n <- make.names(gi, unique = TRUE)
+            }
+        }
+        gi <- lapply(gi, import)
+        names(gi) <- n
+    }
+    if(length(names(gi))!=length(gi)){
+        names(gi) <- paste0("gi_", seq_along(gi))
+    }
+    gi <- lapply(gi, function(.ele){
+        if(!inherits(.ele, c("Pairs", "GInteractions"))){
+            stop("gi must be a list of genomic interaction data in format of
+                 Pairs or GInteractions.")
+        }
+        if(any(duplicated(.ele))){
+            stop("gi must be a list of unique genomic interactions.")
+        }
+        if(is(.ele, "Pairs")){
+            .ele <- pairsToGInteractions(.ele)
+        }
+        .ele
+    })
+    return(gi)
+}

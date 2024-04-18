@@ -7,11 +7,11 @@
 vennCount(gi, FUN = min, ...)
 }
 \arguments{
-\item{gi}{A list of bedpe files or a list of genomic interaction data
+\item{gi}{A vector of bedpe files or a list of genomic interaction data
 (\link[S4Vectors:Pairs-class]{Pairs} or
 \link[InteractionSet:GInteractions-class]{GInteractions})}
 
-\item{FUN}{Function to summarize the oberlapping number.}
+\item{FUN}{Function to summarize the overlapping number.}
 
 \item{\dots}{parameters used by
 \link[InteractionSet:findOverlaps]{findOverlaps}}

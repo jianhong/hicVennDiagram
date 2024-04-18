@@ -5,15 +5,15 @@
 #' and return an object of class \link{vennTable}, storing the combinations
 #' as well as the number of elements in each intersection.
 #'
-#' @param gi A list of bedpe files or a list of genomic interaction data
+#' @param gi A vector of bedpe files or a list of genomic interaction data
 #'  (\link[S4Vectors:Pairs-class]{Pairs} or
 #'  \link[InteractionSet:GInteractions-class]{GInteractions})
-#' @param FUN Function to summarize the oberlapping number.
+#' @param FUN Function to summarize the overlapping number.
 #' @param \dots parameters used by
 #' \link[InteractionSet:findOverlaps]{findOverlaps}
 #' @export
 #' @importFrom S4Vectors queryHits subjectHits
-#' @importFrom InteractionSet findOverlaps
+#' @importFrom IRanges findOverlaps
 #' @importFrom rtracklayer import
 #' @importFrom utils combn
 #' @return An object of \link{vennTable}
@@ -24,34 +24,7 @@
 #'
 vennCount <- function(gi, FUN = min, ...){
     stopifnot(is.function(FUN))
-    if(is.character(gi)){
-        if(length(names(gi))==length(gi)){
-            n <- names(gi)
-        }else{
-            n <- basename(gi)
-            if(any(duplicated(n))){
-                n <- make.names(gi, unique = TRUE)
-            }
-        }
-        gi <- lapply(gi, import)
-        names(gi) <- n
-    }
-    if(length(names(gi))!=length(gi)){
-        names(gi) <- paste0("gi_", seq_along(gi))
-    }
-    gi <- lapply(gi, function(.ele){
-        if(!inherits(.ele, c("Pairs", "GInteractions"))){
-            stop("gi must be a list of genomic interaction data in format of
-                 Pairs or GInteractions.")
-        }
-        if(any(duplicated(.ele))){
-            stop("gi must be a list of unique genomic interactions.")
-        }
-        if(is(.ele, "Pairs")){
-            .ele <- pairsToGInteractions(.ele)
-        }
-        .ele
-    })
+    gi <- readGI(gi)
     # get overlaps
     cmb <- combn(names(gi), 2, simplify = FALSE)
     names(cmb) <- vapply(cmb, paste, FUN.VALUE = character(1L), collapse="_")
