@@ -7,9 +7,11 @@
 #'  \link[InteractionSet:GInteractions-class]{GInteractions}) or a list of
 #'  GRanges object. 'subject' is optional if length of query > 1.
 #' @param txdb An TxDb object to retrieve the sequence lengths, and genes 
-#' annotations. Or an GRanges object.
+#' annotations. Or an GRanges/GInteractions object.
 #' @param background Background mode. The test will restricted within the 
-#' region.
+#' region. The background is the background of subject if subject is available.
+#' Otherwise, the background is the the background of second element of
+#' comparsion group.
 #' @param \dots parameters used by
 #' \link[InteractionSet:findOverlaps]{findOverlaps}.
 #' @export
@@ -43,11 +45,15 @@ gleamTest <- function(query, subject, txdb,
                       ...){
     background <- match.arg(background)
     stopifnot(inherits(txdb, c('TxDb', 'GRanges')))
-    if(is(txdb, 'GRanges')){
+    if(inherits(txdb, c('GRanges', 'GInteractions'))){
         if(background!='genome'){
-            stop('background must be genome when txdb is GRanges.')
+            stop('background must be genome when txdb is GRanges or GInteractions.')
         }
-        gr <- txdb
+        if(is(txdb, 'GRanges')){
+            gr <- txdb
+        }else{
+            gr <- regions(txdb)
+        }
     }else{
         gr <- switch(background,
                      'genome'=as(seqinfo(txdb), 'GRanges'),
@@ -115,6 +121,7 @@ gleamTest <- function(query, subject, txdb,
         n_total <- length(s)
         c(prop = prop,
           n_obs = n_hit,
+          n_total = n_total,
           n_exp = prop * n_total,
           pval = getPval(n_hit, n_total, prop))
     })

@@ -39,6 +39,9 @@ readGI <- function(gi){
         gi <- lapply(gi, import)
         names(gi) <- n
     }
+    if(inherits(gi, c("Pairs", "GInteractions", "GRanges"))){
+        gi <- list(gi=gi)
+    }
     if(length(names(gi))!=length(gi)){
         names(gi) <- paste0("gi_", seq_along(gi))
     }

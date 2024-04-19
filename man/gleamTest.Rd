@@ -19,10 +19,12 @@ interaction data (\link[S4Vectors:Pairs-class]{Pairs} or
 GRanges object. 'subject' is optional if length of query > 1.}
 
 \item{txdb}{An TxDb object to retrieve the sequence lengths, and genes
-annotations. Or an GRanges object.}
+annotations. Or an GRanges/GInteractions object.}
 
 \item{background}{Background mode. The test will restricted within the
-region.}
+region. The background is the background of subject if subject is available.
+Otherwise, the background is the the background of second element of
+comparsion group.}
 
 \item{\dots}{parameters used by
 \link[InteractionSet:findOverlaps]{findOverlaps}.}
