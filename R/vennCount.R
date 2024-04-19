@@ -30,7 +30,7 @@ vennCount <- function(gi, FUN = min, ...){
     names(cmb) <- vapply(cmb, paste, FUN.VALUE = character(1L), collapse="_")
     ol <- lapply(cmb, function(.ele){
         findOverlaps(gi[[.ele[1]]], gi[[.ele[2]]],
-                     use.region="both", ...)
+                     ...) # use.region="both" is default
     })
     # create outcome table
     ncontrasts <- length(gi)

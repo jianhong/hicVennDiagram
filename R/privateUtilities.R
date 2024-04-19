@@ -43,9 +43,9 @@ readGI <- function(gi){
         names(gi) <- paste0("gi_", seq_along(gi))
     }
     gi <- lapply(gi, function(.ele){
-        if(!inherits(.ele, c("Pairs", "GInteractions"))){
+        if(!inherits(.ele, c("Pairs", "GInteractions", "GRanges"))){
             stop("gi must be a list of genomic interaction data in format of
-                 Pairs or GInteractions.")
+                 Pairs, GInteractions, or GRanges.")
         }
         if(any(duplicated(.ele))){
             stop("gi must be a list of unique genomic interactions.")

@@ -13,11 +13,10 @@ gleamTest(
 )
 }
 \arguments{
-\item{query}{A vector of bedpe files or a list of genomic interaction data
-(\link[S4Vectors:Pairs-class]{Pairs} or
-\link[InteractionSet:GInteractions-class]{GInteractions})}
-
-\item{subject}{A vector of bed files or a GRangesList object. Optional.}
+\item{query, subject}{A vector of bedpe files or a list of genomic
+interaction data (\link[S4Vectors:Pairs-class]{Pairs} or
+\link[InteractionSet:GInteractions-class]{GInteractions}) or a list of
+GRanges object. 'subject' is optional if length of query > 1.}
 
 \item{txdb}{An TxDb object to retrieve the sequence lengths, and genes
 annotations. Or an GRanges object.}
@@ -37,8 +36,16 @@ pd <- system.file("extdata", package = "hicVennDiagram", mustWork = TRUE)
 fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 gleamTest(fs, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene)
-gr <- exons(TxDb.Hsapiens.UCSC.hg38.knownGene)
-grl <- GRangesList(gr1=gr, gr2=gr, gr3=gr)
-gleamTest(fs, grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
+grl <- GRangesList(exons=reduce(exons(TxDb.Hsapiens.UCSC.hg38.knownGene)),
+ genes=reduce(genes(TxDb.Hsapiens.UCSC.hg38.knownGene)))
+gleamTest(fs[seq_along(grl)], grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
  background = 'gene')
+gleamTest(grl, fs[seq_along(grl)], txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
+ background = 'gene')
+gleamTest(grl[c(2, 1)], grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
+ background = 'gene')
+gleamTest(grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
+ background = 'gene')
+gleamTest(grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
+ background = 'genome')
 }

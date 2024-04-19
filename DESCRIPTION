@@ -1,6 +1,6 @@
 Package: hicVennDiagram
 Title: Venn Diagram for genomic interaction data
-Version: 1.1.3
+Version: 1.1.4
 Authors@R: 
     person(given="Jianhong", family="Ou", email="jianhong.ou@duke.edu", 
         role=c("aut", "cre"), comment=c(ORCID="0000-0002-8652-2488"))

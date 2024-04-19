@@ -121,6 +121,7 @@ overlappingPeaksToVennTable <- function(.ele){
 }
 venn <- overlappingPeaksToVennTable(ol)
 vennPlot(venn)
+## or you can simply try vennPlot(vennCount(c(bed, gff)))
 upsetPlot(venn, themes = upset_themes_fix)
 ## change the font size of labels and numbers
 updated_theme <- ComplexUpset::upset_modify_themes(
