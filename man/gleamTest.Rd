@@ -4,13 +4,7 @@
 \alias{gleamTest}
 \title{Perform GLEAM test}
 \usage{
-gleamTest(
-  query,
-  subject,
-  txdb,
-  background = c("genome", "gene", "exon", "intron"),
-  ...
-)
+gleamTest(query, subject, background, method = c("binom", "hyper"), ...)
 }
 \arguments{
 \item{query, subject}{A vector of bedpe files or a list of genomic
@@ -18,13 +12,12 @@ interaction data (\link[S4Vectors:Pairs-class]{Pairs} or
 \link[InteractionSet:GInteractions-class]{GInteractions}) or a list of
 GRanges object. 'subject' is optional if length of query > 1.}
 
-\item{txdb}{An TxDb object to retrieve the sequence lengths, and genes
-annotations. Or an GRanges/GInteractions object.}
-
-\item{background}{Background mode. The test will restricted within the
+\item{background}{The test will restricted within the
 region. The background is the background of subject if subject is available.
 Otherwise, the background is the the background of second element of
-comparsion group.}
+comparison group.}
+
+\item{method}{Distribution type for p-value.}
 
 \item{\dots}{parameters used by
 \link[InteractionSet:findOverlaps]{findOverlaps}.}
@@ -37,17 +30,13 @@ Run Genomic Loops Enrichment Analysis Method test
 pd <- system.file("extdata", package = "hicVennDiagram", mustWork = TRUE)
 fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
 library(TxDb.Hsapiens.UCSC.hg38.knownGene)
-gleamTest(fs, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene)
+## set.seed(123)
+## background <- createGIbackground(fs)
+## gleamTest(fs, background = background)
+## gleamTest(fs, background = background, method = 'hyper')
 grl <- GRangesList(exons=reduce(exons(TxDb.Hsapiens.UCSC.hg38.knownGene)),
  genes=reduce(genes(TxDb.Hsapiens.UCSC.hg38.knownGene)))
-gleamTest(fs[seq_along(grl)], grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
- background = 'gene')
-gleamTest(grl, fs[seq_along(grl)], txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
- background = 'gene')
-gleamTest(grl[c(2, 1)], grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
- background = 'gene')
-gleamTest(grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
- background = 'gene')
-gleamTest(grl, txdb=TxDb.Hsapiens.UCSC.hg38.knownGene,
- background = 'genome')
+gleamTest(fs[seq_along(grl)], grl, background = grl[['exons']])
+gleamTest(grl[c(2, 1)], grl, background = grl[['exons']])
+gleamTest(grl, background = grl[['genes']])
 }

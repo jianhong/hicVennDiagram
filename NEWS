@@ -1,3 +1,7 @@
+# Changes in version 1.1.5
+
+    o Update the function gleamTest with user input background.
+    
 # Changes in version 1.1.4
 
     o Expand function gleamTest with GRanges input.

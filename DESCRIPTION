@@ -1,6 +1,6 @@
 Package: hicVennDiagram
 Title: Venn Diagram for genomic interaction data
-Version: 1.1.4
+Version: 1.1.5
 Authors@R: 
     person(given="Jianhong", family="Ou", email="jianhong.ou@duke.edu", 
         role=c("aut", "cre"), comment=c(ORCID="0000-0002-8652-2488"))
@@ -18,7 +18,7 @@ Depends:
     R (>= 3.0.0)
 Imports:
     GenomeInfoDb,
-    GenomicFeatures,
+    GenomicRanges,
     IRanges,
     InteractionSet,
     rtracklayer,
@@ -36,7 +36,6 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    GenomicRanges,
     ChIPpeakAnno,
     grid,
     TxDb.Hsapiens.UCSC.hg38.knownGene
