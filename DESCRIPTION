@@ -1,8 +1,8 @@
 Package: hicVennDiagram
 Title: Venn Diagram for genomic interaction data
-Version: 1.5.0
+Version: 1.5.1
 Authors@R: 
-    person(given="Jianhong", family="Ou", email="jianhong.ou@duke.edu", 
+    person(given="Jianhong", family="Ou", email="jou@morgridge.org", 
         role=c("aut", "cre"), comment=c(ORCID="0000-0002-8652-2488"))
 Description: A package to generate high-resolution Venn and Upset plots for 
     genomic interaction data from HiC, ChIA-PET, HiChIP, PLAC-Seq, Hi-TrAC,
