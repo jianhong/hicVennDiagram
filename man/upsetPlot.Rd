@@ -20,7 +20,7 @@ upsetPlot(
 text labels of counts for each group. If it set to FALSE or length of the
 list is zero, the labels will be ignored.}
 
-\item{coln_prefix}{The prefix to be removed for colnumn names of vennTable.}
+\item{coln_prefix}{The prefix to be removed for column names of vennTable.}
 
 \item{...}{Parameters could be passed to \link[ComplexUpset:upset]{upset}
 except \code{data} and \code{intersect}.}

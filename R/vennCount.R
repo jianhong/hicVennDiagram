@@ -26,8 +26,7 @@ vennCount <- function(gi, FUN = min, ...){
     stopifnot(is.function(FUN))
     gi <- readGI(gi)
     # get overlaps
-    cmb <- combn(names(gi), 2, simplify = FALSE)
-    names(cmb) <- vapply(cmb, paste, FUN.VALUE = character(1L), collapse="_")
+    cmb <- createCmb(names(gi), collapse = '_')
     ol <- lapply(cmb, function(.ele){
         findOverlaps(gi[[.ele[1]]], gi[[.ele[2]]],
                      ...) # use.region="both" is default

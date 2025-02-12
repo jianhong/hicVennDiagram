@@ -22,8 +22,14 @@ comparison group.}
 \item{\dots}{parameters used by
 \link[InteractionSet:findOverlaps]{findOverlaps}.}
 }
+\value{
+A data.frame of test results.
+}
 \description{
-Run Genomic Loops Enrichment Analysis Method test
+Run Genomic Loops Enrichment Analysis Method (GLEAM) test. GLEAM identifies
+the query is significantly over-represented within the subject
+by given background if subject is available. Otherwise, the GLEAM will be
+tested among the queries.
 }
 \examples{
 # example code

@@ -20,6 +20,7 @@ output:
 suppressPackageStartupMessages({
     library(hicVennDiagram)
     library(GenomicRanges)
+    library(TxDb.Hsapiens.UCSC.hg38.knownGene)
 })
 knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
@@ -165,6 +166,21 @@ upsetPlot(venn,
           themes = updated_theme
           )
 ```
+
+# GLEAM test
+
+Genomic Loops Enrichment Analysis Method (GLEAM) do enrichment analysis like
+GREAT (Genomic Regions Enrichment of Annotations Tool) for the interactions.
+
+```{r}
+pd <- system.file("extdata", package = "hicVennDiagram", mustWork = TRUE)
+fs <- dir(pd, pattern = ".bedpe", full.names = TRUE)
+fs <- fs[!grepl('group1', fs)] # make the test data smaller
+set.seed(123)
+background <- createGIbackground(fs)
+gleamTest(fs, background = background, method = 'binom')
+```
+
 
 # Session Info
 ```{r sessionInfo, results='asis'}

@@ -42,7 +42,7 @@ vennPlot <- function(vennTable, shape = 'circle', ...){
     names(fov) <- fake_fov
     fit$original.values <- fake_fov ##
     if(is.null(dots$quantities)){
-        dots$quantities = TRUE
+        dots$quantities <- TRUE
     }
     dots$x <- fit
     p <- do.call(plot, dots)

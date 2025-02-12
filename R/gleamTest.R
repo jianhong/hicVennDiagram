@@ -1,7 +1,9 @@
 #' Perform GLEAM test
 #' @description
-#' Run Genomic Loops Enrichment Analysis Method test
-#' 
+#' Run Genomic Loops Enrichment Analysis Method (GLEAM) test. GLEAM identifies 
+#' the query is significantly over-represented within the subject 
+#' by given background if subject is available. Otherwise, the GLEAM will be
+#' tested among the queries.
 #' @param query,subject A vector of bedpe files or a list of genomic 
 #' interaction data (\link[S4Vectors:Pairs-class]{Pairs} or
 #'  \link[InteractionSet:GInteractions-class]{GInteractions}) or a list of
@@ -13,6 +15,7 @@
 #' @param method Distribution type for p-value.
 #' @param \dots parameters used by
 #' \link[InteractionSet:findOverlaps]{findOverlaps}.
+#' @return A data.frame of test results.
 #' @export
 #' @importFrom S4Vectors queryHits subjectHits
 #' @importFrom GenomeInfoDb seqlengths seqinfo
@@ -78,9 +81,7 @@ gleamTest <- function(query, subject,
                             sep = '_enriched_with_')
     }else{
         ## testing the correlation among the query
-        cmb <- combn(names(query), 2, simplify = FALSE)
-        names(cmb) <- vapply(cmb, paste, FUN.VALUE = character(1L),
-                             collapse="_enriched_with_")
+        cmb <- createCmb(names(query), collapse = "_enriched_with_")
         cmb <- lapply(cmb, function(.ele){
             query[.ele]
         })
@@ -197,6 +198,7 @@ gleamTest <- function(query, subject,
 #' interaction data (\link[S4Vectors:Pairs-class]{Pairs} or
 #'  \link[InteractionSet:GInteractions-class]{GInteractions}).
 #' @param size The maximal size of the background
+#' @return A GInteractions object.
 #' @importFrom InteractionSet regions
 #' @importFrom utils combn
 #' @importFrom S4Vectors first second

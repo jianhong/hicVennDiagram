@@ -7,7 +7,7 @@
 #' @param label_all A list of parameters used by \link[ggplot2]{geom_label} for
 #' text labels of counts for each group. If it set to FALSE or length of the
 #' list is zero, the labels will be ignored.
-#' @param coln_prefix The prefix to be removed for colnumn names of vennTable.
+#' @param coln_prefix The prefix to be removed for column names of vennTable.
 #' @param ... Parameters could be passed to \link[ComplexUpset:upset]{upset}
 #'  except `data` and `intersect`.
 #' @return A ggplot object.

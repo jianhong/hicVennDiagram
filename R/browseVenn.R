@@ -58,7 +58,8 @@ browseVenn <- function(plot,
 #' @param env The environment in which to evaluate \code{expr}.
 #' @param quoted Is \code{expr} a quoted expression (with \code{quote()})? This
 #'   is useful if you want to save an expression in a variable.
-#'
+#' @return An output or render function that enables the use of the widget 
+#'   within Shiny applications.
 #' @name browseVenn-shiny
 #'
 #' @export

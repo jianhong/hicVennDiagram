@@ -13,6 +13,9 @@ interaction data (\link[S4Vectors:Pairs-class]{Pairs} or
 
 \item{size}{The maximal size of the background}
 }
+\value{
+A GInteractions object.
+}
 \description{
 Create background based on the distance distribution of input GInteractions.
 }
