@@ -112,7 +112,7 @@ vennCount <- function(gi, FUN = min, ...){
             gi[[.n]][.e]
         })
     })
-
+    
     vennTable(combinations=outcomes,
               counts=counts,
               vennCounts=vennCounts,

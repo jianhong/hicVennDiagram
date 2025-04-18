@@ -1,3 +1,7 @@
+# Changes in version 1.5.3
+
+    o Fix a bug if the counts colname is not sorted.
+    
 # Changes in version 1.5.2
 
     o Fix multiple typos and update the documentation.

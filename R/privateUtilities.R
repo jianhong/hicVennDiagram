@@ -63,7 +63,7 @@ readGI <- function(gi){
 
 #' @importFrom utils combn
 createCmb <- function(x, collapse="_"){
-    cmb <- combn(x, 2, simplify = FALSE)
+    cmb <- combn(sort(x), 2, simplify = FALSE)
     names(cmb) <- vapply(cmb, paste,
                          FUN.VALUE = character(1L),
                          collapse=collapse)

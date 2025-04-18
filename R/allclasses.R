@@ -32,6 +32,12 @@ setClass("vennTable",
                  return("The length of counts slot are not identical to
                         the number of rows of combinations slot.")
              }
+             if(!all(colnames(object@combinations)==sort(colnames(object@combinations)))){
+                 return('The column names must be sorted.')
+             }
+             if(!identical(colnames(object@vennCounts), colnames(object@combinations))){
+                 return('The column names of counts and combinations must be identical.')
+             }
              if(!identical(names(object@counts), rownames(object@vennCounts))){
                  return("The names of counts are not identical to
                         the rownames of vennCounts")
