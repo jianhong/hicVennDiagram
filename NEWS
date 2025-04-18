@@ -1,4 +1,4 @@
-# Changes in version 1.5.3
+# Changes in version 1.7.1
 
     o Fix a bug if the counts colname is not sorted.
     
