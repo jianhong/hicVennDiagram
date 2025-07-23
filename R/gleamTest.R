@@ -18,7 +18,7 @@
 #' @return A data.frame of test results.
 #' @export
 #' @importFrom S4Vectors queryHits subjectHits
-#' @importFrom GenomeInfoDb seqlengths seqinfo
+#' @importFrom Seqinfo seqlengths seqinfo
 #' @importFrom IRanges reduce subsetByOverlaps findOverlaps width trim promoters
 #' @importFrom InteractionSet regions
 #' @importFrom GenomicRanges GRanges
@@ -203,7 +203,7 @@ gleamTest <- function(query, subject,
 #' @importFrom utils combn
 #' @importFrom S4Vectors first second
 #' @importFrom IRanges distance
-#' @importFrom GenomeInfoDb seqnames
+#' @importFrom Seqinfo seqnames
 #' @export
 #' @examples
 #' 
