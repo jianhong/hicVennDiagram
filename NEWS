@@ -1,5 +1,13 @@
 # Changes in version 1.7.1
 
+    o Temp fix a bug caused by the updates of ggplot2.
+    
+# Changes in version 1.7.2
+
+    o Update the change of Seqinfo.
+    
+# Changes in version 1.7.1
+
     o Fix a bug if the counts colname is not sorted.
     
 # Changes in version 1.5.2
