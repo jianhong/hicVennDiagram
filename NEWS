@@ -1,3 +1,7 @@
+# Changes in version 1.6.1
+
+    o Temp fix of theme for the update of ggplot2.
+    
 # Changes in version 1.5.2
 
     o Fix multiple typos and update the documentation.
